@@ -10,13 +10,13 @@ function getComputerChoice() {
 //I need a function that prompts and cleans up user input. Input should only allow characters and should have its case modified to match that of the computer's.
 function getPlayerChoice() {
     //Prompt for input
-    playerInput = prompt("Rock, Paper or Scissors?");
+    let playerInput = prompt("Rock, Paper or Scissors?");
     if (playerInput == "") {
         alert("You must enter something!");
         getPlayerChoice();
     }
     else {
-        inputValidation(playerInput);
+        return inputValidation(playerInput);
     }
 }
 
@@ -25,7 +25,6 @@ function inputValidation(input) {
     //Below removes all spaces
     input = input.replace(/\s/g, "");
     input = `${input[0].toUpperCase()}${input.substring(1).toLowerCase()}`;
-    console.log(input, "Before conditional.");
     if (!(/^[a-zA-Z]+$/.test(input))) {
         console.log(input, "Not valid");
         getPlayerChoice();
@@ -36,21 +35,44 @@ function inputValidation(input) {
     }
     else if (/^[a-zA-Z]+$/.test(input) && ['Rock', 'Paper', 'Scissors'].includes(input)) {
     //Spaces must me removed from input because these are not inlcuded in the RegEx. A 'null' value (If user clicks Cancel) will result in true block running.
-        console.log(input, "Inside inputVal");
+        playerChoice = input
         return input;
     }
 }
 
-// function checkRockPaperScissors(validatedInput, choices) {
-//     if (choices.includes(validatedInput)) {
+function playGame(computerChoice, playerChoice) {
+    if (computerChoice == playerChoice) {
+        console.log(`Draw! Computer: ${computerChoice} Player: ${playerChoice}`)
+    }
+    else if (computerChoice == 'Rock' && playerChoice == 'Scissors') {
+        console.log(`You lose! ${computerChoice} beats ${playerChoice}`);
+    }
+    else if (computerChoice == 'Rock' && playerChoice == 'Paper') {
+        console.log(`You win! ${computerChoice} loses to ${playerChoice}`);
+    }
+    else if (computerChoice == 'Paper' && playerChoice == 'Rock') {
+        console.log(`You lose! ${computerChoice} beats ${playerChoice}`);
+    }
+    else if (computerChoice == 'Paper' && playerChoice == 'Scissors') {
+        console.log(`You win! ${computerChoice} loses to ${playerChoice}`);
+    }      
+    else if (computerChoice == 'Scissors' && playerChoice == 'Paper') {
+        console.log(`You lose! ${computerChoice} beats ${playerChoice}`);
+    }
+    else if (computerChoice == 'Scissors' && playerChoice == 'Rock') {
+        console.log(`You win! ${computerChoice} loses to ${playerChoice}`);
+    }
+        
+}
 
-//     }
-// }
+const computerChoice = getComputerChoice();
 
-computerChoice = getComputerChoice();
-// console.log(x);
+let playerChoice;
 
-playerChoice = getPlayerChoice();
-//console.log(x);
+getPlayerChoice();
+
+
+//Time to play the game
+playGame(computerChoice, playerChoice);
 
 // validated = inputValidation(playerChoice, computerChoice);
