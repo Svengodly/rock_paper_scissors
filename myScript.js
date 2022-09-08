@@ -16,6 +16,7 @@ function getPlayerChoice() {
         getPlayerChoice();
     }
     else {
+        console.log(playerInput);
         return inputValidation(playerInput);
     }
 }
@@ -27,11 +28,14 @@ function inputValidation(input) {
     input = `${input[0].toUpperCase()}${input.substring(1).toLowerCase()}`;
     if (!(/^[a-zA-Z]+$/.test(input))) {
         console.log(input, "Not valid");
-        getPlayerChoice();
+        input = getPlayerChoice();
+        return input;
     }
     else if (/^[a-zA-Z]+$/.test(input) && (!['Rock', 'Paper', 'Scissors'].includes(input))) {
         console.log(`${input} is not in ${['Rock', 'Paper', 'Sciccors']}`);
-        getPlayerChoice();
+        //Reasigning 'input' here solves an issue where this function returns the incorrect input.
+        input = getPlayerChoice();
+        return input;
     }
     else if (/^[a-zA-Z]+$/.test(input) && ['Rock', 'Paper', 'Scissors'].includes(input)) {
     //Spaces must me removed from input because these are not inlcuded in the RegEx. A 'null' value (If user clicks Cancel) will result in true block running.
@@ -41,38 +45,77 @@ function inputValidation(input) {
 }
 
 function playGame(computerChoice, playerChoice) {
+    //This fucntion needs to return a value, which will be used to track points.
     if (computerChoice == playerChoice) {
         console.log(`Draw! Computer: ${computerChoice} Player: ${playerChoice}`)
     }
     else if (computerChoice == 'Rock' && playerChoice == 'Scissors') {
         console.log(`You lose! ${computerChoice} beats ${playerChoice}`);
+        return true;
     }
     else if (computerChoice == 'Rock' && playerChoice == 'Paper') {
         console.log(`You win! ${computerChoice} loses to ${playerChoice}`);
+        return false;
     }
     else if (computerChoice == 'Paper' && playerChoice == 'Rock') {
         console.log(`You lose! ${computerChoice} beats ${playerChoice}`);
+        return true;
     }
     else if (computerChoice == 'Paper' && playerChoice == 'Scissors') {
         console.log(`You win! ${computerChoice} loses to ${playerChoice}`);
+        return false;
     }      
     else if (computerChoice == 'Scissors' && playerChoice == 'Paper') {
         console.log(`You lose! ${computerChoice} beats ${playerChoice}`);
+        return true;
     }
     else if (computerChoice == 'Scissors' && playerChoice == 'Rock') {
         console.log(`You win! ${computerChoice} loses to ${playerChoice}`);
+        return false;
     }
         
 }
 
-const computerChoice = getComputerChoice();
+function game() {
+    for (let i = 1; i <= 5; i++) {
+        computerChoice = getComputerChoice();
+        playerChoice = getPlayerChoice();
+        console.log(`Round ${i}`);
+        result = playGame(computerChoice, playerChoice);
+        // console.log(playerChoice);
+        if (result == true) {
+            computerScore += 1;
+        } else if (result == false) {
+            playerScore += 1;
+        }
+        else {
+            console.log("No points added.");
+        }
+        console.log(`Computer: ${computerScore} Player: ${playerScore}`);
+    }
+    console.log(`Final Score - Computer: ${computerScore} Player: ${playerScore}`);
+    switch (true) {
+        case (computerScore > playerScore):
+            console.log("You lost the game! Better luck next time!");
+            break;
+        case (computerScore < playerScore):
+            console.log("You won the game!");
+            break;
+        case (computer == playerScore):
+            console.log("Looks like we have a tie!")
+            break;
+    }
+}
+
+let computerChoice = getComputerChoice();
 
 let playerChoice;
 
-getPlayerChoice();
-
-
 //Time to play the game
-playGame(computerChoice, playerChoice);
 
-// validated = inputValidation(playerChoice, computerChoice);
+let computerScore = 0;
+let playerScore = 0;
+
+game();
+
+
