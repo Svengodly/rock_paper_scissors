@@ -51,36 +51,41 @@ function playGame(computerChoice, playerChoice) {
     }
     else if (computerChoice == 'Rock' && playerChoice == 'Scissors') {
         console.log(`You lose! ${computerChoice} beats ${playerChoice}`);
+        ++computerScore;
         return true;
     }
     else if (computerChoice == 'Rock' && playerChoice == 'Paper') {
         console.log(`You win! ${computerChoice} loses to ${playerChoice}`);
+        ++playerScore;
         return false;
     }
     else if (computerChoice == 'Paper' && playerChoice == 'Rock') {
         console.log(`You lose! ${computerChoice} beats ${playerChoice}`);
+        ++computerScore;
         return true;
     }
     else if (computerChoice == 'Paper' && playerChoice == 'Scissors') {
         console.log(`You win! ${computerChoice} loses to ${playerChoice}`);
+        ++playerScore;
         return false;
     }      
     else if (computerChoice == 'Scissors' && playerChoice == 'Paper') {
         console.log(`You lose! ${computerChoice} beats ${playerChoice}`);
+        ++computerScore;
         return true;
     }
     else if (computerChoice == 'Scissors' && playerChoice == 'Rock') {
         console.log(`You win! ${computerChoice} loses to ${playerChoice}`);
+        ++playerScore;
         return false;
     }
-        
 }
 
 function game() {
-    for (let i = 1; i <= 5; i++) {
+    //for (let i = 1; i <= 5; i++) {
         computerChoice = getComputerChoice();
-        playerChoice = getPlayerChoice();
-        console.log(`Round ${i}`);
+        //playerChoice = getPlayerChoice();
+      //  console.log(`Round ${i}`);
         result = playGame(computerChoice, playerChoice);
         // console.log(playerChoice);
         if (result == true) {
@@ -92,7 +97,7 @@ function game() {
             console.log("No points added.");
         }
         console.log(`Computer: ${computerScore} Player: ${playerScore}`);
-    }
+    //}
     console.log(`Final Score - Computer: ${computerScore} Player: ${playerScore}`);
     switch (true) {
         case (computerScore > playerScore):
@@ -101,7 +106,7 @@ function game() {
         case (computerScore < playerScore):
             console.log("You won the game!");
             break;
-        case (computer == playerScore):
+        case (computerScore == playerScore):
             console.log("Looks like we have a tie!")
             break;
     }
@@ -116,6 +121,14 @@ let playerChoice;
 let computerScore = 0;
 let playerScore = 0;
 
-game();
+const buttons = document.getElementsByTagName("button");
+
+for (const button of buttons) {
+    button.addEventListener("click", () => {
+        playGame(getComputerChoice(), event.target.innerText);
+        console.log(`Computer: ${computerScore}, Player: ${playerScore}`);
+    });
+}
+//game();
 
 
