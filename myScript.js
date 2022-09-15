@@ -7,128 +7,70 @@ function getComputerChoice() {
     return computerOutcome;
 } 
 
-//I need a function that prompts and cleans up user input. Input should only allow characters and should have its case modified to match that of the computer's.
-function getPlayerChoice() {
-    //Prompt for input
-    let playerInput = prompt("Rock, Paper or Scissors?");
-    if (playerInput == "") {
-        alert("You must enter something!");
-        getPlayerChoice();
-    }
-    else {
-        console.log(playerInput);
-        return inputValidation(playerInput);
-    }
-}
-
-function inputValidation(input) {
-    //A RegEx can be used to check if the player's input is all letters. /^[a-zA-Z]+$/
-    //Below removes all spaces
-    input = input.replace(/\s/g, "");
-    input = `${input[0].toUpperCase()}${input.substring(1).toLowerCase()}`;
-    if (!(/^[a-zA-Z]+$/.test(input))) {
-        console.log(input, "Not valid");
-        input = getPlayerChoice();
-        return input;
-    }
-    else if (/^[a-zA-Z]+$/.test(input) && (!['Rock', 'Paper', 'Scissors'].includes(input))) {
-        console.log(`${input} is not in ${['Rock', 'Paper', 'Sciccors']}`);
-        //Reasigning 'input' here solves an issue where this function returns the incorrect input.
-        input = getPlayerChoice();
-        return input;
-    }
-    else if (/^[a-zA-Z]+$/.test(input) && ['Rock', 'Paper', 'Scissors'].includes(input)) {
-    //Spaces must me removed from input because these are not inlcuded in the RegEx. A 'null' value (If user clicks Cancel) will result in true block running.
-        playerChoice = input
-        return input;
-    }
-}
-
 function playGame(computerChoice, playerChoice) {
     //This fucntion needs to return a value, which will be used to track points.
     if (computerChoice == playerChoice) {
         console.log(`Draw! Computer: ${computerChoice} Player: ${playerChoice}`)
+        outputDiv.innerText = `Draw! Computer: ${computerChoice} Player: ${playerChoice}\nComputer: ${computerScore} Player: ${playerScore}`;
     }
     else if (computerChoice == 'Rock' && playerChoice == 'Scissors') {
         console.log(`You lose! ${computerChoice} beats ${playerChoice}`);
         ++computerScore;
+        outputDiv.innerText = `You lose! ${computerChoice} beats ${playerChoice}\nComputer: ${computerScore} Player: ${playerScore}`;
         return true;
     }
     else if (computerChoice == 'Rock' && playerChoice == 'Paper') {
         console.log(`You win! ${computerChoice} loses to ${playerChoice}`);
         ++playerScore;
+        outputDiv.innerText = `You win! ${computerChoice} loses to ${playerChoice}\nComputer: ${computerScore} Player: ${playerScore}`;
         return false;
     }
     else if (computerChoice == 'Paper' && playerChoice == 'Rock') {
         console.log(`You lose! ${computerChoice} beats ${playerChoice}`);
         ++computerScore;
+        outputDiv.innerText = `You lose! ${computerChoice} beats ${playerChoice}\nComputer: ${computerScore} Player: ${playerScore}`;
         return true;
     }
     else if (computerChoice == 'Paper' && playerChoice == 'Scissors') {
         console.log(`You win! ${computerChoice} loses to ${playerChoice}`);
         ++playerScore;
+        outputDiv.innerText = `You win! ${computerChoice} loses to ${playerChoice}\nComputer: ${computerScore} Player: ${playerScore}`;
         return false;
     }      
     else if (computerChoice == 'Scissors' && playerChoice == 'Paper') {
         console.log(`You lose! ${computerChoice} beats ${playerChoice}`);
         ++computerScore;
+        outputDiv.innerText = `You lose! ${computerChoice} beats ${playerChoice}\nComputer: ${computerScore} Player: ${playerScore}`;
         return true;
     }
     else if (computerChoice == 'Scissors' && playerChoice == 'Rock') {
         console.log(`You win! ${computerChoice} loses to ${playerChoice}`);
         ++playerScore;
+        outputDiv.innerText = `You win! ${computerChoice} loses to ${playerChoice}\nComputer: ${computerScore} Player: ${playerScore}`;
         return false;
     }
 }
 
-function game() {
-    //for (let i = 1; i <= 5; i++) {
-        computerChoice = getComputerChoice();
-        //playerChoice = getPlayerChoice();
-      //  console.log(`Round ${i}`);
-        result = playGame(computerChoice, playerChoice);
-        // console.log(playerChoice);
-        if (result == true) {
-            computerScore += 1;
-        } else if (result == false) {
-            playerScore += 1;
-        }
-        else {
-            console.log("No points added.");
-        }
-        console.log(`Computer: ${computerScore} Player: ${playerScore}`);
-    //}
-    console.log(`Final Score - Computer: ${computerScore} Player: ${playerScore}`);
-    switch (true) {
-        case (computerScore > playerScore):
-            console.log("You lost the game! Better luck next time!");
-            break;
-        case (computerScore < playerScore):
-            console.log("You won the game!");
-            break;
-        case (computerScore == playerScore):
-            console.log("Looks like we have a tie!")
-            break;
-    }
+function getPlayerChoice() {
+    event.stopImmediatePropagation();
+        playGame(getComputerChoice(), event.currentTarget.name);//currentTarget.name retrieves the name attribute of the element that has the EV attached.
+        console.log(event.currentTarget.name);
+        if (playerScore == 5 || computerScore == 5) {
+            end = document.createElement('div');
+            end.innerText = `Game Over! ${(playerScore > computerScore) ? "Player" : "Computer"} Wins!`;
+            document.body.appendChild(end);
 }
-
-let computerChoice = getComputerChoice();
-
-let playerChoice;
-
-//Time to play the game
-
+}
 let computerScore = 0;
 let playerScore = 0;
 
 const buttons = document.getElementsByTagName("button");
+const outputDiv = document.querySelector("div");
+outputDiv.innerText = `Computer: ${computerScore} Player: ${playerScore}`;
 
 for (const button of buttons) {
-    button.addEventListener("click", () => {
-        playGame(getComputerChoice(), event.target.innerText);
-        console.log(`Computer: ${computerScore}, Player: ${playerScore}`);
-    });
-}
-//game();
+    button.addEventListener("click", getPlayerChoice);
+        }
+
 
 
