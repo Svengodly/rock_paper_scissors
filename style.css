@@ -1,3 +1,27 @@
-.rock {
-    color:aliceblue;
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.output {
+    text-align: center;
+}
+
+button {
+    border-radius: 10px;
+}
+    
+button:hover, img:hover {
+    background-color: aqua;
+}
+
+img {
+    background-color: rgba(255, 240, 1, .25);
+    border-radius: 10px;
+}
+
+body {
+    background-color: antiquewhite;
 }
