@@ -1,16 +1,33 @@
+body {
+    text-align: center;
+}
+
+p {
+    font-size: 18px;
+}
+
 .main {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+    /* //align-items: center; This declaration scrunches everything to the center of the body */
 }
 
-.output {
-    text-align: center;
+/* .main > * {
+    border: solid 5px blue;
+} */
+
+.output, .result {
+    font-size: 24px;
+}
+
+.result {
+    margin-top: 20px;
 }
 
 button {
     border-radius: 10px;
+    border-color:rgba(31, 163, 27, 0.25);
+    margin-right: 20px;
 }
     
 button:hover, img:hover {
@@ -25,3 +42,22 @@ img {
 body {
     background-color: antiquewhite;
 }
+
+
+.inner {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.output.player, .output.computer {
+    transition: font-size 1s, background-color .25s;
+}
+
+.win {
+    font-size: 32px;
+    background-color: rgba(37, 243, 19, 0.25)
+}
+/* .inner > * {
+    border: solid 10px green;
+} */
